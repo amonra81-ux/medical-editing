@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="it" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina non trovata · Medical Editing</title>
+    <meta name="description" content="La pagina che cercavi non esiste o è stata spostata.">
+    <meta name="robots" content="noindex,follow">
+    <meta name="theme-color" content="#0C0A14">
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+
+    <link rel="preload" as="font" type="font/woff2" href="assets/fonts/geist-latin-wght-normal.woff2" crossorigin>
+    <link rel="stylesheet" href="assets/css/tw.css">
+
+    <style>
+      @font-face {
+        font-family: 'Geist'; font-style: normal; font-display: swap; font-weight: 100 900;
+        src: url('assets/fonts/geist-latin-wght-normal.woff2') format('woff2-variations');
+      }
+      @font-face {
+        font-family: 'Geist Mono'; font-style: normal; font-display: swap; font-weight: 100 900;
+        src: url('assets/fonts/geist-mono-latin-wght-normal.woff2') format('woff2-variations');
+      }
+
+      :root {
+        --bg: #0C0A14;
+        --accent: #6EC1E4;
+        --title: #FFEAEA;
+        --text: #A7AFBD;
+        --card: #111215;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100svh;
+        background: var(--bg);
+        color: var(--title);
+        font-family: 'Geist', sans-serif;
+        display: grid;
+        place-items: center;
+        overflow-x: hidden;
+      }
+
+      .font-mono-me { font-family: 'Geist Mono', monospace; }
+
+      /* la bolla del brand, qui grande dietro il numero */
+      .orb {
+        border-radius: 9999px;
+        background: radial-gradient(120% 120% at 50% 0%, rgba(110,193,228,0.22) 0%, rgba(36,70,95,0.28) 38%, rgba(12,10,20,0) 72%);
+        box-shadow:
+          inset 0 1px 0 rgba(110,193,228,0.55),
+          inset 0 0 60px rgba(110,193,228,0.10),
+          0 0 90px rgba(110,193,228,0.10);
+        border: 1px solid rgba(110,193,228,0.22);
+      }
+
+      @keyframes respiro {
+        0%, 100% { transform: translateY(0) scale(1); }
+        50%      { transform: translateY(-14px) scale(1.02); }
+      }
+      .respira { animation: respiro 9s ease-in-out infinite; }
+
+      /* ============================================================
+           Bottoni: superficie piena, bordo sottile, ombra profonda.
+           Niente neon, niente gradienti vistosi, la luce è un alone
+           largo e appena percettibile.
+           ============================================================ */
+        .btn-glow {
+            position: relative;
+            background: var(--accent);
+            color: #0A1620;
+            border: 0;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.45),
+                inset 0 -1px 0 rgba(10, 22, 32, 0.12),
+                0 1px 2px rgba(0, 0, 0, 0.35),
+                0 18px 40px -22px rgba(110, 193, 228, 0.85);
+            transition:
+                transform .25s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow .3s ease,
+                background-color .3s ease;
+        }
+        .btn-glow:hover {
+            background: #82CCEC;
+            transform: translateY(-1px);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.55),
+                0 2px 4px rgba(0, 0, 0, 0.35),
+                0 24px 50px -24px rgba(110, 193, 228, 0.95);
+        }
+        .btn-glow:active { transform: translateY(0) scale(.985); }
+
+        .btn-arc {
+            position: relative;
+            color: var(--title);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            transition:
+                transform .25s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color .3s ease,
+                background-color .3s ease;
+        }
+        .btn-arc:hover {
+            transform: translateY(-1px);
+            border-color: rgba(255, 255, 255, 0.28);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .btn-arc:active { transform: translateY(0) scale(.985); }
+
+        /* la freccia avanza di due pixel: l'unico movimento dentro il bottone */
+        .btn-glow svg, .btn-arc svg { transition: transform .3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .btn-glow:hover svg, .btn-arc:hover svg { transform: translateX(2px); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .btn-glow, .btn-arc, .btn-glow svg, .btn-arc svg { transition: none; }
+            .btn-glow:hover, .btn-arc:hover { transform: none; }
+        }
+        }
+        }
+
+
+      /* i collegamenti in fondo si scoprono con una riga che si allarga */
+      .link-riga { position: relative; }
+      .link-riga::after {
+        content: '';
+        position: absolute; left: 0; bottom: -4px;
+        height: 1px; width: 0; background: var(--accent);
+        transition: width .5s cubic-bezier(0.16,1,0.3,1);
+      }
+      .link-riga:hover::after { width: 100%; }
+
+      a { text-decoration: none; color: inherit; }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+      @media (prefers-reduced-motion: reduce) {
+        .respira { animation: none; }
+        .btn-glow:hover, .btn-arc:hover { transform: none; }
+      }
+    </style>
+</head>
+<body>
+    <main class="relative w-full max-w-3xl px-6 py-24 text-center">
+        <!-- il numero dentro la bolla del brand -->
+        <div class="relative mx-auto mb-12 grid h-64 w-64 place-items-center">
+            <div class="orb respira absolute inset-0"></div>
+            <span class="relative text-7xl font-medium tracking-tight" style="color: var(--accent); text-shadow: 0 0 60px rgba(110,193,228,0.45)">404</span>
+        </div>
+
+        <p class="font-mono-me text-[11px] uppercase tracking-[0.18em] mb-6" style="color: var(--accent)">Pagina non trovata</p>
+
+        <h1 class="text-3xl md:text-5xl font-medium leading-[1.08] tracking-tight mb-6">
+            Questo montaggio<br>non esiste.
+        </h1>
+
+        <p class="mx-auto max-w-md leading-relaxed mb-12" style="color: var(--text)">
+            La pagina che cercavi è stata spostata o non è mai esistita. Torna al sito: da lì trovi il
+            metodo, i lavori e il modulo di candidatura.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-3">
+            <a href="index.html" class="btn-glow inline-flex items-center gap-2 rounded-full px-8 py-4 font-mono-me text-[11px] uppercase tracking-[0.16em] font-medium">
+                Torna alla home
+            </a>
+            <a href="index.html#lavori" class="btn-arc inline-flex items-center gap-2 rounded-full px-8 py-4 font-mono-me text-[11px] uppercase tracking-[0.16em]">
+                Vedi i lavori
+            </a>
+        </div>
+
+        <div class="mt-16 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 font-mono-me text-[11px] uppercase tracking-[0.16em]" style="color: var(--text)">
+            <a href="index.html#metodo" class="link-riga">Metodo</a>
+            <a href="index.html#conformita" class="link-riga">Conformità</a>
+            <a href="index.html#domande" class="link-riga">Domande</a>
+            <a href="candidati.html" class="link-riga">Candidati</a>
+        </div>
+    </main>
+</body>
+</html>

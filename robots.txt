@@ -1,0 +1,7 @@
+# ANTEPRIMA su GitHub Pages: non indicizzare.
+# Al go-live sul dominio vero sostituire con:
+#   User-agent: *
+#   Allow: /
+#   Sitemap: https://www.medicalediting.it/sitemap.xml
+User-agent: *
+Disallow: /
