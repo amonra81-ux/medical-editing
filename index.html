@@ -108,10 +108,11 @@
         /* ---- Bottoni: un alone contenuto, non un neon ---- */
         .btn-glow {
             box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.45),
-                0 1px 2px rgba(0, 0, 0, 0.35),
-                0 0 26px -6px rgba(110, 193, 228, 0.55),
-                0 18px 40px -22px rgba(110, 193, 228, 0.85);
+                inset 0 2px 0 rgba(255, 255, 255, 0.75),
+                inset 0 -10px 20px rgba(6, 19, 29, 0.28),
+                0 0 0 1px rgba(110, 193, 228, 0.35),
+                0 0 30px -8px rgba(110, 193, 228, 0.6),
+                0 20px 44px -22px rgba(110, 193, 228, 0.9);
         }
         .btn-glow:hover {
             box-shadow:
@@ -356,11 +357,11 @@
         }
         .bolla-hero {
             position: absolute;
-            right: 0;
-            top: -22%;
+            right: 6%;
+            top: 4%;
             z-index: 3;
         }
-        @media (min-width: 1280px) { .bolla-hero { right: -4%; top: -26%; } }
+        @media (min-width: 1280px) { .bolla-hero { right: 0; } }
 
 
         /* ---- Numero della copertina: era stampato nell'immagine, ora è testo ---- */
@@ -726,8 +727,10 @@
            ============================================================ */
         .btn-glow {
             position: relative;
-            background: var(--accent);
-            color: #0A1620;
+            /* stessa fisica della sfera: la luce entra dall'alto e si spegne verso il basso */
+            background:
+                radial-gradient(120% 140% at 50% -10%, #A5DCF3 0%, #7CC6E8 34%, #4FA9E0 70%, #2E7FB4 100%);
+            color: #06131D;
             border: 0;
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.45),
@@ -740,7 +743,8 @@
                 background-color .3s ease;
         }
         .btn-glow:hover {
-            background: #82CCEC;
+            background:
+                radial-gradient(120% 140% at 50% -10%, #C2E9F9 0%, #8FD3EF 34%, #5EB6E8 70%, #3A8FC4 100%);
             transform: translateY(-1px);
             box-shadow:
                 inset 0 1px 0 rgba(255, 255, 255, 0.55),
@@ -752,9 +756,13 @@
         .btn-arc {
             position: relative;
             color: var(--title);
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            background:
+                radial-gradient(120% 160% at 50% -20%, rgba(110,193,228,0.26) 0%, rgba(36,70,95,0.30) 40%, rgba(14,28,44,0.55) 100%);
+            border: 0;
+            box-shadow:
+                inset 0 1px 0 rgba(180, 225, 245, 0.35),
+                inset 0 -8px 18px rgba(0, 0, 0, 0.35),
+                0 0 0 1px rgba(110, 193, 228, 0.24);
             transition:
                 transform .25s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color .3s ease,
@@ -762,8 +770,11 @@
         }
         .btn-arc:hover {
             transform: translateY(-1px);
-            border-color: rgba(255, 255, 255, 0.28);
-            background: rgba(255, 255, 255, 0.05);
+            box-shadow:
+                inset 0 1px 0 rgba(180, 225, 245, 0.5),
+                inset 0 -8px 18px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(110, 193, 228, 0.5),
+                0 0 26px -10px rgba(110, 193, 228, 0.6);
         }
         .btn-arc:active { transform: translateY(0) scale(.985); }
 
