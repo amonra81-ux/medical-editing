@@ -356,11 +356,28 @@
         }
         .bolla-hero {
             position: absolute;
-            right: 6%;
-            top: 4%;
+            right: 0;
+            top: -22%;
             z-index: 3;
         }
-        @media (min-width: 1280px) { .bolla-hero { right: 0; } }
+        @media (min-width: 1280px) { .bolla-hero { right: -4%; top: -26%; } }
+
+
+        /* ---- Numero della copertina: era stampato nell'immagine, ora è testo ---- */
+        .reel-n {
+            position: absolute;
+            left: 6.3%;
+            top: 3.2%;
+            z-index: 2;
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+            font-size: clamp(13px, 3.6cqw, 19px);
+            letter-spacing: .01em;
+            color: rgba(255, 245, 245, 0.92);
+            text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+        .reel__frame, .reel-frame { container-type: inline-size; }
 
     </style>
 
@@ -1074,7 +1091,7 @@
                     </h1>
                 </div>
 
-                <div class="reveal border-t border-white/10 pt-8 flex flex-col md:flex-row md:items-end md:justify-between gap-8" style="transition-delay: 300ms;">
+                <div class="reveal border-t border-white/10 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-8" style="transition-delay: 300ms;">
                     <p class="text-[15px] md:text-base leading-relaxed max-w-lg" style="color: var(--text)">
                         Tu operi e giri. Noi rispondiamo alla domanda che il paziente non fa ad alta voce:
                         <span class="ciclo" data-parole='["quanto fa male?","com&#39;è il dopo?","si vedrà?","e se va storto?"]'><b>quanto fa male?</b></span><br>
@@ -1279,8 +1296,9 @@
                 <!-- 02 -->
                 <button type="button" aria-label="Guarda il video: Mastoplastica additiva" class="reel group text-left" data-reel="reel-2" data-kicker="Testa parlante" data-title="Mastoplastica additiva" data-field="Chirurgia plastica" data-note="Il medico spiega, il montaggio tiene sveglio. Tagli sul respiro, sottotitoli sempre, nessun muro di parole.">
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
+                        <span class="reel-n">01</span>
                         <img src="video/reel-2-poster.jpg" alt="Copertina del video Mastoplastica additiva" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="none" poster="video/reel-2-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-2.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-2-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-2.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Testa parlante</span>
@@ -1291,8 +1309,9 @@
                 <!-- 03 -->
                 <button type="button" aria-label="Guarda il video: Profilo, una tecnica" class="reel group text-left" data-reel="reel-3" data-kicker="Prima / dopo" data-title="Profilo, una tecnica" data-field="Chirurgia plastica" data-note="Una tecnica raccontata in quindici secondi, senza nominare farmaci né promettere risultati.">
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
+                        <span class="reel-n">02</span>
                         <img src="video/reel-3-poster.jpg" alt="Copertina del video Profilo, una tecnica" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="none" poster="video/reel-3-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-3.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-3-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-3.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Prima / dopo</span>
@@ -1303,8 +1322,9 @@
                 <!-- 04 -->
                 <button type="button" aria-label="Guarda il video: Tossina botulinica" class="reel group text-left" data-reel="reel-4" data-kicker="Educativo" data-title="Tossina botulinica" data-field="Medicina estetica" data-note="Contenuto informativo, non pubblicitario: la differenza che tiene il video dentro la norma.">
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
+                        <span class="reel-n">03</span>
                         <img src="video/reel-4-poster.jpg" alt="Copertina del video Tossina botulinica" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="none" poster="video/reel-4-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-4.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-4-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-4.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Educativo</span>
@@ -1315,8 +1335,9 @@
                 <!-- 05 -->
                 <button type="button" aria-label="Guarda il video: Due mesi dopo" class="reel group text-left" data-reel="reel-5" data-kicker="Follow-up" data-title="Due mesi dopo" data-field="Chirurgia plastica" data-note="Il decorso post-operatorio è la paura numero uno. Mostrarlo disinnesca più di qualsiasi risultato finale.">
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
+                        <span class="reel-n">04</span>
                         <img src="video/reel-5-poster.jpg" alt="Copertina del video Due mesi dopo" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="none" poster="video/reel-5-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-5.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-5-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-5.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Follow-up</span>
@@ -1327,8 +1348,9 @@
                 <!-- 06 -->
                 <button type="button" aria-label="Guarda il video: Trattamento del viso" class="reel group text-left" data-reel="reel-6" data-kicker="Prima / dopo" data-title="Trattamento del viso" data-field="Medicina estetica" data-note="Trattamento non chirurgico: il ramo che il paziente cerca prima di decidere se operarsi.">
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
+                        <span class="reel-n">05</span>
                         <img src="video/reel-6-poster.jpg" alt="Copertina del video Trattamento del viso" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="none" poster="video/reel-6-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-6.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-6-poster.jpg" aria-hidden="true" tabindex="-1"><source src="video/reel-6.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Prima / dopo</span>
@@ -1763,16 +1785,25 @@
     const puoAnteprima = window.matchMedia('(hover: hover)').matches
         && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    document.querySelectorAll('.reel').forEach(card => {
+    function collegaAnteprima(card) {
+        if (card.dataset.anteprima) return;
+        card.dataset.anteprima = '1';
         const v = card.querySelector('video');
         if (!v) return;
-        const play = () => { if (puoAnteprima) { const p = v.play(); if (p) p.catch(() => {}); } };
+        const play = () => {
+            if (!puoAnteprima) return;
+            const p = v.play();
+            if (p) p.catch(() => {});
+            // se non ha ancora dati, riprova appena arrivano
+            if (v.readyState < 2) v.addEventListener('canplay', () => { if (card.matches(':hover')) v.play().catch(() => {}); }, { once: true });
+        };
         const stop = () => { if (puoAnteprima) { v.pause(); v.currentTime = 0; } };
         card.addEventListener('mouseenter', play);
         card.addEventListener('mouseleave', stop);
         card.addEventListener('focus', play);
         card.addEventListener('blur', stop);
-    });
+    }
+    document.querySelectorAll('.reel').forEach(collegaAnteprima);
 
     // 5. Video a schermo intero
     const box = document.getElementById('lightbox');
@@ -2008,12 +2039,29 @@
             nastro.appendChild(copia);
         });
         nastro.dataset.doppio = '1';
+        if (typeof collegaAnteprima === 'function') nastro.querySelectorAll('.reel').forEach(collegaAnteprima);
         // le copie devono aprire il video come le originali
         nastro.querySelectorAll('.reel').forEach(card => {
             if (card.dataset.legata) return;
             card.dataset.legata = '1';
             card.addEventListener('click', () => { if (typeof apriBox === 'function') apriBox(card); });
         });
+    })();
+
+
+    // ---- Anteprime: appena la sezione lavori è vicina, i video si scaricano in anticipo ----
+    (function () {
+        const sez = document.getElementById('lavori');
+        if (!sez || !('IntersectionObserver' in window)) return;
+        const io = new IntersectionObserver((v) => {
+            if (!v[0].isIntersecting) return;
+            io.disconnect();
+            sez.querySelectorAll('.reel video').forEach(vid => {
+                vid.preload = 'auto';
+                try { vid.load(); } catch (e) {}
+            });
+        }, { rootMargin: '600px 0px' });
+        io.observe(sez);
     })();
 
     // ---- Micro-interazioni ----
