@@ -1351,6 +1351,25 @@
         touch-action: pan-y;
         cursor: grab;
     }
+    /* Sul telefono niente motore a transform: si usa lo scorrimento nativo,
+       quello con l'inerzia a cui il dito e' abituato. Il mio motore litigava
+       col gesto del browser e ne usciva quello scatto. */
+    .reels-vista.a-dito {
+        overflow-x: auto; overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x proximity;
+        scrollbar-width: none; -ms-overflow-style: none;
+        overscroll-behavior-x: contain;
+    }
+    .reels-vista.a-dito::-webkit-scrollbar { display: none; }
+    .reels-vista.a-dito .reels-nastro {
+        animation: none !important;
+        transform: none !important;
+        touch-action: pan-x pan-y;
+        cursor: auto;
+        will-change: auto;
+    }
+    .reels-vista.a-dito .reel { scroll-snap-align: center; }
     .reels-vista.con-frecce .reels-nastro.in-mano { cursor: grabbing; }
 
     .reels-freccia {
@@ -1381,6 +1400,36 @@
         #main-nav a, .footer a, .apply__links a, .logo {
             display: inline-flex; align-items: center; min-height: 44px;
         }
+        /* le domande delle FAQ si toccano: 36 px non bastano */
+        details[name="faq"] summary { min-height: 44px; }
+        /* i link dentro i paragrafi restano in riga ma diventano afferrabili:
+           il padding allarga l'area del dito senza scombinare il testo */
+        main p a, footer p a, #cookiebar p a { padding-block: 14px; }
+        /* i due bottoni della barra cookie */
+        #cookiebar a, #cookiebar button { min-height: 44px; }
+    }
+
+    /* ============================================================
+       MOBILE · rifiniture per il telefono (non un ridisegno: quello resta
+       da fare). Tocca solo sotto i 768 px, il desktop resta come da ТЗ.
+       ============================================================ */
+    @media (max-width: 767px) {
+
+        /* 1 · meno aria fra le sezioni: erano 128+128 px come sul desktop,
+              cioe' 2.672 px di vuoto su una pagina di 14.718 */
+        main > section:not(#top) { padding-top: 72px !important; padding-bottom: 72px !important; }
+        .stat-sezione { padding-block: 44px !important; }
+
+        /* 2 · le micro-etichette a 9-10 px sul telefono non si leggono.
+              Sul desktop restano quelle del ТЗ. */
+        .font-mono-me, .font-mono-me *,
+        .stat-carta .stat-eti, .schema-eti, .schema-legenda, .schema-legenda *,
+        .passo-n, .passo-meta, .btn-dettagli, .sel-pillola, .faq-gruppo,
+        .targa-2000 .didascalia, .conf-pop-norma, .scorri span {
+            font-size: 11px !important;
+        }
+        .passo-meta, .stat-carta .stat-eti { letter-spacing: .12em !important; }
+
     }
 
     /* ============ 9 · chi non vuole movimento non lo vede ============ */
@@ -1894,7 +1943,7 @@
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
                         <span class="reel-n">01</span>
                         <img src="video/reel-2-poster.jpg?v=2" alt="Copertina del video Mastoplastica additiva" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-2-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source src="video/reel-2.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-2-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source data-src="video/reel-2.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Testa parlante</span>
@@ -1907,7 +1956,7 @@
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
                         <span class="reel-n">02</span>
                         <img src="video/reel-3-poster.jpg?v=2" alt="Copertina del video Profilo, una tecnica" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-3-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source src="video/reel-3.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-3-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source data-src="video/reel-3.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Prima / dopo</span>
@@ -1920,7 +1969,7 @@
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
                         <span class="reel-n">03</span>
                         <img src="video/reel-4-poster.jpg?v=2" alt="Copertina del video Tossina botulinica" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-4-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source src="video/reel-4.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-4-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source data-src="video/reel-4.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Educativo</span>
@@ -1933,7 +1982,7 @@
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
                         <span class="reel-n">04</span>
                         <img src="video/reel-5-poster.jpg?v=2" alt="Copertina del video Due mesi dopo" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-5-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source src="video/reel-5.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-5-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source data-src="video/reel-5.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Follow-up</span>
@@ -1946,7 +1995,7 @@
                     <span class="reel-frame relative block aspect-[9/16] overflow-hidden rounded-2xl border border-white/10" style="background: var(--card)">
                         <span class="reel-n">05</span>
                         <img src="video/reel-6-poster.jpg?v=2" alt="Copertina del video Trattamento del viso" width="720" height="1280" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]">
-                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-6-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source src="video/reel-6.mp4" type="video/mp4"></video>
+                        <video class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500" muted loop playsinline preload="metadata" poster="video/reel-6-poster.jpg?v=2" aria-hidden="true" tabindex="-1"><source data-src="video/reel-6.mp4" type="video/mp4"></video>
                     </span>
                     <span class="reel-foot mt-4 pt-4 border-t border-white/10 flex items-baseline justify-between gap-4">
                         <span class="font-mono-me text-[10px] uppercase tracking-[0.18em]" style="color: var(--accent)">Prima / dopo</span>
@@ -2841,6 +2890,22 @@
         guscio.appendChild(prec);
         guscio.appendChild(succ);
 
+        /* col dito si usa lo scorrimento nativo del browser: fluido, con
+           l'inerzia, e non litiga col gesto verticale della pagina */
+        if (!window.matchMedia('(hover: hover)').matches) {
+            vista.classList.add('a-dito');
+            nastro.style.transform = '';
+            function passoDito() {
+                var c = nastro.querySelector('.reel');
+                if (!c) return 280;
+                var gap = parseFloat(getComputedStyle(nastro).columnGap) || 20;
+                return c.getBoundingClientRect().width + gap;
+            }
+            succ.addEventListener('click', function () { vista.scrollBy({ left:  passoDito(), behavior: 'smooth' }); });
+            prec.addEventListener('click', function () { vista.scrollBy({ left: -passoDito(), behavior: 'smooth' }); });
+            return;
+        }
+
         var VELOCITA = 26;      /* px al secondo: la deriva lenta di prima */
         var DURATA   = 460;     /* quanto ci mette una freccia a portare la clip successiva */
 
@@ -2922,6 +2987,67 @@
         nastro.addEventListener('click', function (e) {
             if (Math.abs(spostato) > 8) { e.stopPropagation(); e.preventDefault(); }
         }, true);
+    })();
+
+    /* ---- Mobile · niente video nelle card dove il passaggio del mouse non esiste ----
+       Su un telefono `hover` non c'e': l'anteprima non puo' partire, ma i 5 video
+       venivano comunque messi in coda per il download. Li tolgo: resta il poster,
+       e il tocco apre comunque il video a schermo intero (usa un elemento suo). */
+    (function () {
+        if (window.matchMedia('(hover: hover)').matches) {
+            /* col mouse l'anteprima serve: accendo le sorgenti */
+            document.querySelectorAll('#lavori .reel video source[data-src]').forEach(function (s) {
+                s.setAttribute('src', s.getAttribute('data-src'));
+                s.removeAttribute('data-src');
+                try { s.parentNode.load(); } catch (e) {}
+            });
+            return;
+        }
+        var tolti = 0;
+        document.querySelectorAll('#lavori .reel video').forEach(function (v) {
+            v.pause();
+            v.removeAttribute('src');
+            v.querySelectorAll('source').forEach(function (s) { s.removeAttribute('src'); });
+            try { v.load(); } catch (e) {}
+            v.remove();
+            tolti++;
+        });
+        if (tolti) document.documentElement.setAttribute('data-video-card-tolti', tolti);
+    })();
+
+    /* ---- Video a schermo intero: chiudere deve essere facile ----
+       Prima si chiudeva solo con la X: il contenitore interno occupa tutta la
+       larghezza, quindi il dito "fuori dal video" cadeva comunque su di lui e
+       il gestore dello sfondo non scattava. E con la pagina bloccata, scorrere
+       non faceva niente. Ora: tocco fuori dal video, oppure trascinata. */
+    (function () {
+        var box = document.getElementById('lightbox');
+        var video = document.getElementById('lightbox-video');
+        if (!box || !video) return;
+
+        function aperto() { return !box.classList.contains('hidden'); }
+        function chiudi() {
+            var x = document.getElementById('lightbox-close');
+            if (x) x.click();            /* riuso la chiusura gia' esistente */
+        }
+        /* un tocco che non e' sul video ne' su un comando chiude */
+        box.addEventListener('click', function (e) {
+            if (!aperto()) return;
+            if (e.target.closest('video, button, a, [role="button"]')) return;
+            chiudi();
+        });
+        /* trascinata verticale: esce dalla modalita' schermo intero */
+        var y0 = null;
+        box.addEventListener('touchstart', function (e) {
+            y0 = e.touches.length === 1 ? e.touches[0].clientY : null;
+        }, { passive: true });
+        box.addEventListener('touchmove', function (e) {
+            if (y0 === null || !aperto()) return;
+            if (Math.abs(e.touches[0].clientY - y0) > 60) { y0 = null; chiudi(); }
+        }, { passive: true });
+        box.addEventListener('touchend', function () { y0 = null; }, { passive: true });
+        /* e con la rotella, per chi lo apre dal computer */
+        box.addEventListener('wheel', function () { if (aperto()) chiudi(); }, { passive: true });
     })();
 
     /* ---- 6 · finestre di dettaglio della Conformità ---- */
