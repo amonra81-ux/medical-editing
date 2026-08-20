@@ -22,7 +22,9 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+    <!-- REVISIONE 2026-08 · 1.1 — niente video in hero: il preload del poster non serve piu'
     <link rel="preload" as="image" href="video/hero-loop-poster.jpg" fetchpriority="high">
+    -->
 
     <link rel="stylesheet" href="assets/css/tw.css">
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/geist-latin-wght-normal.woff2" crossorigin>
@@ -959,6 +961,493 @@
 
     </style>
 
+    <!-- ============================================================
+         REVISIONE 2026-08 — tutte le modifiche del ТЗ del 19.08.2026.
+         Blocco unico: per annullare la revisione basta togliere questo
+         <style>, lo <script id="js-revisione-2026-08"> in fondo alla
+         pagina e riattivare il video commentato nella hero.
+         ============================================================ -->
+    <style id="css-revisione-2026-08">
+
+    /* ---- 5.1 · il corsivo dei titoli non e' piu' crema: e' azzurro ---- */
+    body h1 em, body h2 em, body blockquote em { color: var(--accent); }
+
+    /* ============ 1.1 · HERO: luce di sala operatoria, niente video ============ */
+    .hero-luce {
+        position: absolute; inset: 0;
+        background:
+            radial-gradient(58% 46% at 74% 16%, rgba(110,193,228,.18) 0%, rgba(110,193,228,0) 62%),
+            radial-gradient(62% 52% at 10% 90%, rgba(36,70,95,.36) 0%, rgba(36,70,95,0) 68%),
+            linear-gradient(180deg, #0C0A14 0%, #0D1322 55%, #0C0A14 100%);
+    }
+    .hero-raggio {
+        position: absolute; inset: 0;
+        opacity: .10; filter: blur(6px);
+        background: conic-gradient(from 196deg at 92% -4%,
+            rgba(110,193,228,0) 0deg, rgba(110,193,228,.85) 16deg,
+            rgba(110,193,228,0) 38deg, rgba(110,193,228,0) 360deg);
+        transform-origin: 92% 0%;
+        animation: raggio-lento 18s ease-in-out infinite alternate;
+    }
+    @keyframes raggio-lento {
+        from { transform: rotate(-2.5deg) scale(1); }
+        to   { transform: rotate(3.5deg) scale(1.07); }
+    }
+    .hero-griglia {
+        position: absolute; inset: 0;
+        background-image:
+            linear-gradient(rgba(110,193,228,.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(110,193,228,.05) 1px, transparent 1px);
+        background-size: 72px 72px;
+        -webkit-mask-image: radial-gradient(52% 44% at 74% 16%, #000 0%, transparent 72%);
+                mask-image: radial-gradient(52% 44% at 74% 16%, #000 0%, transparent 72%);
+    }
+
+    /* ============ 1.2 · il secondo bottone della hero: stessa forma, ghost ============ */
+    .btn-ghost {
+        border-radius: 9999px;
+        color: var(--title);
+        background: rgba(110,193,228,.06);
+        box-shadow: inset 0 0 0 1px rgba(110,193,228,.35);
+        transition: background-color .3s ease, box-shadow .3s ease,
+                    transform .25s cubic-bezier(.16,1,.3,1);
+    }
+    .btn-ghost:hover {
+        background: rgba(110,193,228,.12);
+        box-shadow: inset 0 0 0 1px rgba(110,193,228,.6);
+        transform: translateY(-1px);
+    }
+    .btn-ghost:active { transform: translateY(0) scale(.985); }
+    @media (max-width: 767px) and (pointer: coarse) { .btn-ghost { min-height: 46px; } }
+
+    /* ============ 1.3 · targa di vetro "+2000" al posto della sfera ============ */
+    /* Posizione: top 7% come chiede il ТЗ; a destra invece di "~3%" e' a filo
+       con la colonna, cosi' il bordo destro della targa cade esattamente sopra
+       la riga del titolo e sul bordo del bottone "Vedi i lavori" (scelta di
+       Salvatore, 19/08).
+       Perche' ci stia senza coprire il titolo (criterio di accettazione n. 2)
+       la zona contenuti guadagna 124 px in alto da lg in su: a 1024 px il
+       titolo e' largo 812 px e la targa 234, sulla stessa riga non ci starebbero. */
+    @media (min-width: 1024px) { .hero-inner .max-w-5xl { padding-top: 124px; } }
+    .targa-2000 {
+        position: absolute; right: 0; top: 7%; z-index: 3;
+        display: none; align-items: center; gap: 18px;
+        border-radius: 20px; padding: 20px 26px;
+        -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+        border: 1px solid rgba(110,193,228,.28);
+        background: linear-gradient(135deg, rgba(36,70,95,.42) 0%, rgba(17,18,21,.72) 100%);
+        box-shadow: 0 26px 60px -34px rgba(110,193,228,.55);
+    }
+    @media (min-width: 1024px) { .targa-2000 { display: inline-flex; } }
+    .targa-2000 .anello { width: 58px; height: 58px; flex: none; position: relative; }
+    .targa-2000 .anello svg { width: 58px; height: 58px; transform: rotate(-90deg); }
+    /* l'icona play sta DENTRO .anello: senza questa riga eredita i 58 px e la
+       rotazione dell'anello, e diventa un triangolo rivolto verso l'alto */
+    .targa-2000 .anello .play svg { width: 18px; height: 18px; transform: none; }
+    .targa-2000 .arco-dato {
+        stroke-dasharray: 163;                 /* 2 * pi * r(26) = 163.4 */
+        stroke-dashoffset: 163;
+        animation: arco-disegna 1.6s cubic-bezier(.16,1,.3,1) .35s forwards;
+    }
+    @keyframes arco-disegna { to { stroke-dashoffset: 41; } }  /* ~75% */
+    .targa-2000 .play {
+        position: absolute; inset: 0; display: grid; place-items: center;
+        color: var(--accent);
+    }
+    .targa-2000 .cifra {
+        font-size: 32px; font-weight: 600; letter-spacing: -.02em;
+        color: var(--title); line-height: 1;
+    }
+    .targa-2000 .didascalia {
+        display: block; margin-top: 6px;
+        font-family: 'Geist Mono', monospace; font-size: 10px;
+        text-transform: uppercase; letter-spacing: .2em; color: var(--accent);
+    }
+
+    /* ============ 2 · fascia statistiche: tre carte di vetro ============ */
+    .stat-griglia { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 20px; }
+    @media (min-width: 768px) { .stat-griglia { gap: 24px; } }
+    .stat-carta {
+        position: relative; border-radius: 16px; padding: 34px 16px 30px; text-align: center;
+        background: linear-gradient(180deg, rgba(36,70,95,.20), rgba(17,18,21,.65));
+        border: 1px solid rgba(110,193,228,.14);
+        transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease;
+    }
+    .stat-carta::before {
+        content: ''; position: absolute; top: 0; left: 12%; width: 76%; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(110,193,228,.7), transparent);
+    }
+    .stat-carta:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 26px 54px -30px rgba(110,193,228,.65);
+    }
+    .stat-carta .stat-eti {
+        display: block; margin-top: 12px;
+        font-family: 'Geist Mono', monospace; font-size: 10px;
+        text-transform: uppercase; letter-spacing: .2em; color: var(--accent);
+    }
+    /* La cifra: il ТЗ la vuole "come prima", cioe' 3rem sotto 768 px e 3.75rem sopra.
+       Ma il ТЗ impone anche grid-cols-3 a ogni larghezza, e "2.000+" e' una parola
+       sola: non va a capo, esce. Quindi tengo il valore del ТЗ come MASSIMO e la
+       lascio rimpicciolire solo quanto serve perche' resti dentro la carta.
+       Da ~630 px in su il massimo e' gia' raggiunto: li' vale esattamente il ТЗ. */
+    @media (max-width: 767px) {
+        .stat-carta b { font-size: min(3rem, calc(10vw - 15px)) !important; }
+    }
+    @media (max-width: 639px) {
+        .stat-carta { padding: 26px 8px 22px; }
+        .stat-carta .stat-eti { font-size: 9px; letter-spacing: .12em; }
+    }
+
+    /* ============ 3 · Identita': via il verde, entra il blu ============ */
+    .card-teal {
+        background:
+            linear-gradient(0deg, rgba(36,70,95,.62) 0%, rgba(24,48,72,.30) 42%, rgba(17,18,21,.85) 78%),
+            var(--card);
+        border: 1px solid rgba(110,193,228,.16);
+    }
+    .card-teal:hover {
+        border-color: rgba(110,193,228,.4);
+        box-shadow: 0 30px 60px -30px rgba(110,193,228,.55);
+    }
+    .teal-wash::before {
+        background:
+            radial-gradient(70% 60% at 72% 8%, rgba(36,80,116,.80) 0%, rgba(28,56,84,.42) 38%, rgba(12,10,20,0) 72%),
+            linear-gradient(180deg, rgba(28,56,84,.55) 0%, rgba(12,10,20,0) 60%);
+    }
+
+    /* ============ 4 · schema "un girato, due selezioni" ============ */
+    /* il Tailwind di questo sito e' precompilato: "md:col-span-2" e "py-16" non
+       esistono nel foglio, quindi la larghezza piena e i margini li do' qui. */
+    @media (min-width: 768px) { .schema-taglio { grid-column: 1 / -1; } }
+    .stat-sezione { padding-block: 64px; }
+    .schema-taglio {
+        border-radius: 24px; background: var(--card);
+        border: 1px solid rgba(110,193,228,.12);
+        padding: 28px 22px;
+    }
+    @media (min-width: 768px) { .schema-taglio { padding: 34px 32px; } }
+    .schema-eti {
+        font-family: 'Geist Mono', monospace; font-size: 10px;
+        text-transform: uppercase; letter-spacing: .2em;
+    }
+    .schema-linea { display: flex; align-items: flex-end; gap: 6px; height: 64px; margin-top: 14px; }
+    @media (min-width: 768px) { .schema-linea { height: 84px; } }
+    .schema-linea > span {
+        flex: 1; border-radius: 6px 6px 2px 2px; position: relative;
+        background: rgba(255,255,255,.06);
+    }
+    .seg-prugna { background: linear-gradient(180deg, #8A5570, #5A3850) !important; }
+    .seg-blu    { background: linear-gradient(180deg, rgba(110,193,228,.95), rgba(36,70,95,.9)) !important; }
+    .seg-vuoto  {
+        background: transparent !important;
+        border: 1px dashed rgba(167,175,189,.45);
+        display: grid; place-items: center;
+        color: #8B8D97; font-size: 12px;
+    }
+    .seg-rischio::after {
+        content: '!'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+        font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 600; color: #C08FA8;
+    }
+    .schema-nota { margin-top: 12px; font-size: 13px; line-height: 1.6; color: var(--text); }
+    .schema-legenda {
+        margin-top: 26px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.06);
+        display: flex; flex-wrap: wrap; gap: 10px 22px;
+        font-family: 'Geist Mono', monospace; font-size: 10px;
+        text-transform: uppercase; letter-spacing: .14em; color: #8B8D97;
+    }
+    .schema-legenda span { display: inline-flex; align-items: center; gap: 8px; }
+    .schema-legenda i { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+
+    /* ============ 5.2 · Metodo: elenco a sinistra, pannello a destra ============ */
+    .metodo-griglia { display: grid; gap: 28px; }
+    @media (min-width: 1024px) { .metodo-griglia { grid-template-columns: 1fr 44%; gap: 48px; align-items: start; } }
+
+    .passo-btn {
+        width: 100%; text-align: left; display: grid;
+        grid-template-columns: auto 1fr; gap: 18px; align-items: start;
+        padding: 18px 18px; border-radius: 18px;
+        border: 1px solid transparent;
+        background: transparent; min-height: 46px;
+        transition: background .35s ease, border-color .35s ease;
+    }
+    .passo-btn + .passo-btn { margin-top: 6px; }
+    .passo-chip {
+        width: 46px; height: 46px; flex: none; border-radius: 13px;
+        display: grid; place-items: center; color: var(--accent);
+        background: rgba(110,193,228,.08);
+        border: 1px solid rgba(110,193,228,.22);
+        transition: box-shadow .35s ease, border-color .35s ease;
+    }
+    .passo-btn[aria-selected="true"] {
+        background: linear-gradient(180deg, rgba(110,193,228,.10), rgba(110,193,228,.02));
+        border-color: rgba(110,193,228,.30);
+    }
+    .passo-btn[aria-selected="true"] .passo-chip {
+        border-color: rgba(110,193,228,.45);
+        box-shadow: 0 0 22px -4px rgba(110,193,228,.6), inset 0 0 18px rgba(110,193,228,.14);
+    }
+    .passo-testa { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px; }
+    .passo-n { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: .2em; color: #8B8D97; }
+    .passo-titolo {
+        font-family: 'Geist', sans-serif; font-weight: 500;
+        font-size: 20px; letter-spacing: -.02em; color: var(--title);
+    }
+    @media (min-width: 768px) { .passo-titolo { font-size: 24px; } }
+    .passo-meta {
+        margin-left: auto; font-family: 'Geist Mono', monospace; font-size: 9px;
+        text-transform: uppercase; letter-spacing: .18em; color: #8B8D97;
+    }
+    .passo-corpo { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s cubic-bezier(.16,1,.3,1); }
+    .passo-corpo > span { overflow: hidden; display: block; }
+    .passo-btn[aria-selected="true"] .passo-corpo { grid-template-rows: 1fr; }
+    /* dentro un <button> ci sta solo contenuto in linea: niente <p>, uno <span> reso a blocco */
+    /* la descrizione parte sotto il TITOLO, non sotto il numero: rientro di
+       quanto misura il numero piu' il suo distacco (16 + 14 px) */
+    .passo-btn { --numero-largo: 16px; }
+    .passo-n { display: inline-block; min-width: var(--numero-largo); }
+    .passo-testo {
+        display: block; padding-top: 12px;
+        padding-left: calc(var(--numero-largo) + 14px);
+        font-size: 15px; line-height: 1.7; color: var(--text);
+    }
+
+    .metodo-pannello {
+        /* si allunga fino alla lista: altrimenti, con una descrizione aperta,
+           la colonna di sinistra scendeva 27-53 px sotto il pannello */
+        align-self: stretch;
+        display: none; position: sticky; top: 128px;
+        border-radius: 24px; min-height: 380px; overflow: hidden;
+        padding: 40px 32px;
+        background: radial-gradient(90% 62% at 50% 0%, rgba(36,70,95,.55) 0%, rgba(17,18,21,0) 70%), var(--card);
+        border: 1px solid rgba(110,193,228,.14);
+        text-align: center;
+    }
+    @media (min-width: 1024px) { .metodo-pannello { display: block; } }
+    .metodo-fantasma {
+        position: absolute; top: 14px; right: 22px;
+        font-family: 'Geist Mono', monospace; font-size: 64px; line-height: 1;
+        color: rgba(110,193,228,.10); pointer-events: none;
+    }
+    @media (min-width: 1280px) { .metodo-fantasma { font-size: 110px; top: 6px; } }
+    .metodo-sfera {
+        width: 112px; height: 112px; margin: 34px auto 0;
+        display: grid; place-items: center; color: var(--accent);
+    }
+    .metodo-sfera svg { width: 42px; height: 42px; }
+    .metodo-nome { margin-top: 26px; font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; color: var(--title); }
+    .metodo-punti { margin-top: 30px; display: flex; justify-content: center; gap: 10px; }
+    .metodo-punti i {
+        width: 7px; height: 7px; border-radius: 9999px; display: inline-block;
+        background: rgba(255,255,255,.16); transition: background .3s ease, box-shadow .3s ease;
+    }
+    .metodo-punti i.attivo { background: var(--accent); box-shadow: 0 0 12px rgba(110,193,228,.9); }
+    .metodo-cambio { animation: metodo-entra .22s ease-out; }
+    @keyframes metodo-entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    /* ============ 6 · Conformita': carta corta + finestra col dettaglio ============ */
+    .conf-riga { font-size: 15px; line-height: 1.7; color: var(--text); }
+    .btn-dettagli {
+        align-self: flex-start; border-radius: 9999px;
+        padding: 12px 18px; min-height: 46px;
+        display: inline-flex; align-items: center; gap: 8px;
+        font-family: 'Geist Mono', monospace; font-size: 10px;
+        text-transform: uppercase; letter-spacing: .16em; color: var(--title);
+        background: rgba(110,193,228,.07);
+        border: 1px solid rgba(110,193,228,.30);
+        transition: box-shadow .3s ease, border-color .3s ease, background-color .3s ease;
+    }
+    .btn-dettagli:hover {
+        border-color: rgba(110,193,228,.6);
+        background: rgba(110,193,228,.12);
+        box-shadow: 0 0 26px -8px rgba(110,193,228,.8);
+    }
+    dialog.conf-pop {
+        width: min(560px, calc(100vw - 32px)); max-width: 560px;
+        border: 1px solid rgba(110,193,228,.25); border-radius: 24px;
+        padding: 32px 28px; color: var(--text);
+        background: linear-gradient(180deg, rgba(24,34,50,.98), rgba(14,15,20,.98));
+        box-shadow: 0 50px 100px -40px rgba(0,0,0,.9);
+    }
+    dialog.conf-pop::backdrop { background: rgba(8,7,14,.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+    dialog.conf-pop[open] { animation: pop-entra .4s cubic-bezier(.16,1,.3,1); }
+    @keyframes pop-entra { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    dialog.conf-pop h3 { font-size: 22px; letter-spacing: -.02em; color: var(--title); padding-right: 46px; }
+    dialog.conf-pop p { font-size: 15px; line-height: 1.75; margin-top: 16px; }
+    .conf-pop-chiudi {
+        position: absolute; top: 18px; right: 18px;
+        width: 44px; height: 44px; border-radius: 9999px;
+        display: grid; place-items: center; color: var(--text);
+        border: 1px solid rgba(255,255,255,.14); background: transparent;
+        transition: border-color .3s ease, color .3s ease;
+    }
+    .conf-pop-chiudi:hover { border-color: rgba(110,193,228,.6); color: var(--title); }
+    .conf-pop-norma {
+        margin-top: 22px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.08);
+        font-family: 'Geist Mono', monospace; font-size: 10px;
+        text-transform: uppercase; letter-spacing: .14em; color: var(--accent);
+    }
+    /* link alla fonte ufficiale della norma (punto 6 del ТЗ) */
+    .conf-pop-fonti { margin-top: 12px; display: grid; gap: 4px; }
+    .conf-pop-fonti a {
+        display: inline-flex; align-items: center; gap: 6px;
+        min-height: 44px; font-size: 14px; line-height: 1.5;
+        color: var(--accent) !important;
+        text-decoration: underline; text-underline-offset: 3px;
+        text-decoration-color: rgba(110,193,228,.35);
+        transition: text-decoration-color .3s ease;
+    }
+    .conf-pop-fonti a:hover { text-decoration-color: rgba(110,193,228,.9); }
+    /* testo che leggono solo gli screen reader */
+    .solo-lettori {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+
+    /* ============ 7 · "Con chi lavoriamo": due carte compatte ============ */
+    /* il reset del tema azzera con !important il margine di TUTTI gli h2, quindi
+       il "mb-20" del titolo non arrivava e le carte gli finivano addosso */
+    .sel-griglia { margin-top: 72px; }
+    @media (max-width: 767px) { .sel-griglia { margin-top: 48px; } }
+    .sel-carta { border-radius: 24px; background: var(--card); padding: 26px 24px;
+        transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease; }
+    .sel-carta.sel-si { border: 1px solid rgba(110,193,228,.22); }
+    .sel-carta.sel-no { border: 1px solid rgba(255,255,255,.10); }
+    .sel-carta:hover { transform: translateY(-4px); box-shadow: 0 26px 54px -30px rgba(110,193,228,.55); }
+    .sel-pillola {
+        display: inline-flex; align-items: center; border-radius: 9999px;
+        padding: 7px 14px; margin-bottom: 6px;
+        font-family: 'Geist Mono', monospace; font-size: 10px;
+        text-transform: uppercase; letter-spacing: .2em;
+    }
+    .sel-si .sel-pillola { color: var(--accent); background: rgba(110,193,228,.10); border: 1px solid rgba(110,193,228,.25); }
+    .sel-no .sel-pillola { color: #8B8D97; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
+    .sel-carta li {
+        display: flex; gap: 14px; align-items: flex-start;
+        padding-block: .875rem; font-size: 15px; line-height: 1.6;
+        border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .sel-carta li:first-child { border-top: 0; }
+    .sel-carta li svg { width: 16px; height: 16px; flex: none; margin-top: 3px; }
+
+    /* ============ 8 · FAQ: etichette di gruppo ============ */
+    .faq-gruppo {
+        font-family: 'Geist Mono', monospace; font-size: 10px;
+        text-transform: uppercase; letter-spacing: .22em; color: var(--accent);
+    }
+    .faq-gruppo + details { border-top: 1px solid rgba(255,255,255,.10); }
+
+    /* ============ Lavori · frecce avanti e indietro ============
+       Il nastro scorreva da solo e basta: senza comandi non si torna indietro.
+       Ora e' una fila che si trascina, con due frecce. Tolte anche le copie che
+       servivano al giro infinito: erano 10 video invece di 5, e il browser ne
+       annullava meta' (per questo non tutte le card si accendevano). */
+    .reels-guscio { position: relative; }
+    /* giostra ad anello: la fila si sposta di una clip per volta e non finisce mai */
+    .reels-vista.con-frecce { overflow: hidden; }
+    .reels-vista.con-frecce .reels-nastro {
+        animation: none !important;
+        will-change: transform;
+        touch-action: pan-y;
+        cursor: grab;
+    }
+    .reels-vista.con-frecce .reels-nastro.in-mano { cursor: grabbing; }
+
+    .reels-freccia {
+        position: absolute; top: 44%; transform: translateY(-50%); z-index: 5;
+        width: 48px; height: 48px; border-radius: 9999px;
+        display: grid; place-items: center;
+        color: var(--title);
+        background: rgba(12,10,20,.72);
+        -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+        border: 1px solid rgba(110,193,228,.30) !important;
+        box-shadow: 0 18px 40px -22px rgba(0,0,0,.9);
+        transition: background-color .3s ease, border-color .3s ease;
+    }
+    .reels-freccia svg { width: 20px; height: 20px; }
+    .reels-freccia--prec { left: 4px; }
+    .reels-freccia--succ { right: 4px; }
+    .reels-freccia:hover {
+        background: rgba(110,193,228,.14);
+        border-color: rgba(110,193,228,.65) !important;
+    }
+    @media (max-width: 767px) { .reels-freccia { width: 44px; height: 44px; } }
+
+    /* ============ 9 · tocco >= 44 px, a qualunque larghezza ============
+       Il ТЗ chiede zone di tocco >= 44 px senza limiti di breakpoint. La regola
+       gia' nel foglio si ferma a 767 px, ma i link della barra compaiono solo da
+       768 px in su: su un tablet touch restavano alti ~17 px. */
+    @media (pointer: coarse) {
+        #main-nav a, .footer a, .apply__links a, .logo {
+            display: inline-flex; align-items: center; min-height: 44px;
+        }
+    }
+
+    /* ============ 9 · chi non vuole movimento non lo vede ============ */
+
+    /* ============================================================
+       REVISIONE 2026-08 · rientro dal "reset anti-tema"
+       Piu' su nel foglio c'e' un blocco che, per difendere la pagina dal tema
+       WordPress, impone con !important font e colore a body/p/span/button/li.
+       Quel blocco si mangiava il monospaziato, i colori e i bordi degli elementi
+       nuovi di questa revisione. Qui glieli ridiamo, solo a loro.
+       ============================================================ */
+
+    /* micro-etichette: devono restare monospaziate come tutte le altre del sito */
+    .targa-2000 .didascalia, .targa-2000 .didascalia *,
+    .stat-carta .stat-eti, .stat-carta .stat-eti *,
+    .schema-eti, .schema-legenda, .schema-legenda *,
+    .passo-n, .passo-meta, .metodo-fantasma,
+    .btn-dettagli, .conf-pop-norma,
+    .sel-pillola, .faq-gruppo {
+        font-family: 'Geist Mono', monospace !important;
+    }
+
+    /* la terza carta statistiche ha due <span> annidati (versione corta e lunga):
+       senza questa riga il reset ricolora e sminuscola solo quella */
+    .stat-carta .stat-eti * { color: inherit !important; text-transform: inherit !important; }
+
+    /* maiuscolo. Il ТЗ lo chiede ai punti 1.3, 2, 5.2, 6, 7, 8 e scrive la
+       didascalia come «VIDEO MONTATI». Non e' una scelta nuova: il foglio
+       originale gia' dichiara "text-transform: uppercase" su .font-mono-me —
+       era il reset anti-tema che lo spegneva con !important. Qui lo riaccendo
+       sia sulle etichette nuove sia su quelle vecchie, cosi' la pagina resta
+       coerente e torna il carattere voluto dal progetto. */
+    body .font-mono-me, body .font-mono-me *,
+    .targa-2000 .didascalia, .stat-carta .stat-eti, .passo-meta,
+    .btn-dettagli, .sel-pillola, .faq-gruppo, .scorri span,
+    .schema-legenda, .schema-legenda * {
+        text-transform: uppercase !important;
+    }
+    /* "Scorri" ha la stessa misura e spaziatura delle altre micro-etichette
+       ma non aveva la classe: lo riporto nella stessa famiglia */
+    .scorri span { font-family: 'Geist Mono', monospace !important; }
+
+    /* colori che il reset spingeva a bianco */
+    .metodo-fantasma { color: rgba(110,193,228,.10) !important; }
+    .passo-chip, .metodo-sfera { color: var(--accent) !important; }
+    .passo-n, .passo-meta { color: #8B8D97 !important; }
+    .passo-testo { color: var(--text) !important; }
+    .seg-vuoto { color: #8B8D97 !important; }
+
+    /* bordi: "body button { border: 0 !important }" li azzerava tutti e tre */
+    .passo-btn { border: 1px solid transparent !important; }
+    .passo-btn[aria-selected="true"] { border-color: rgba(110,193,228,.30) !important; }
+    .btn-dettagli { border: 1px solid rgba(110,193,228,.30) !important; }
+    .btn-dettagli:hover { border-color: rgba(110,193,228,.6) !important; }
+    .conf-pop-chiudi { border: 1px solid rgba(255,255,255,.14) !important; }
+    .conf-pop-chiudi:hover { border-color: rgba(110,193,228,.6) !important; }
+
+    @media (prefers-reduced-motion: reduce) {
+        .hero-raggio { animation: none; }
+        .targa-2000 .arco-dato { animation: none; stroke-dashoffset: 41; }
+        .stat-carta, .sel-carta, .btn-ghost, .passo-btn, .passo-corpo { transition: none; }
+        .stat-carta:hover, .sel-carta:hover, .btn-ghost:hover { transform: none; }
+        .metodo-cambio { animation: none; }
+        dialog.conf-pop[open] { animation: none; }
+    }
+    </style>
+
     <!-- GEO: dati strutturati. Le AI citano fatti, non slogan. -->
     <script type="application/ld+json">
     {
@@ -976,7 +1465,7 @@
           "founder": { "@id": "https://www.medicalediting.it/#founder" },
           "areaServed": { "@type": "Country", "name": "Italia" },
           "sameAs": [
-              "https://www.instagram.com/medicalediting/",
+              "https://www.instagram.com/medicaledit_/",
               "https://www.tiktok.com/@medicalediting",
               "https://www.facebook.com/medicalediting"
             ],
@@ -1069,24 +1558,40 @@
 
     <!-- ======================= HERO ======================= -->
     <section id="top" data-amb="azzurro" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 pb-28">
-        <!-- Atmosfera: loop anatomico 3D, nessun paziente riconoscibile -->
+        <!-- REVISIONE 2026-08 · 1.1 — Atmosfera: luce di sala operatoria, solo CSS.
+             Il loop anatomico 3D resta nel repository (video/hero-loop.mp4) e qui sotto
+             commentato: per tornare indietro basta togliere i commenti. -->
         <div class="hero-media absolute inset-0 z-0 pointer-events-none select-none will-change-transform">
+            <!-- REVISIONE 2026-08 · video disattivato, conservato per un eventuale ritorno
             <video class="w-full h-full object-cover opacity-40" poster="video/hero-loop-poster.jpg" autoplay loop muted playsinline preload="metadata" aria-hidden="true" tabindex="-1">
                 <source src="video/hero-loop.mp4" type="video/mp4">
             </video>
             <div class="absolute inset-0 z-10" style="background: radial-gradient(120% 90% at 70% 20%, transparent 0%, rgba(12,10,20,0.72) 55%, rgba(12,10,20,0.97) 100%)"></div>
+            -->
+            <div class="hero-luce" aria-hidden="true"></div>
+            <div class="hero-raggio" aria-hidden="true"></div>
+            <div class="hero-griglia" aria-hidden="true"></div>
             <div class="absolute inset-x-0 bottom-0 h-64 z-10" style="background: linear-gradient(to top, var(--bg), transparent)"></div>
         </div>
 
         <!-- bolla luminosa: è l'elemento grafico del sito originale -->
         <div class="hero-inner container mx-auto px-6 relative z-20">
             <div class="max-w-5xl relative">
-                <!-- il numero, accanto al claim -->
-                <div class="bolla-hero hidden lg:grid sfera h-[190px] w-[190px] place-items-center text-center reveal">
-                    <div>
-                        <b class="block text-[40px] font-semibold tracking-tight" style="color: var(--accent)">+2000</b>
-                        <span class="mt-2 block text-[13px]" style="color: var(--accent); opacity: .85">Video montati</span>
-                    </div>
+                <!-- REVISIONE 2026-08 · 1.3 — targa di vetro al posto della sfera 190x190 -->
+                <div class="targa-2000 reveal" role="figure" aria-label="Oltre 2000 video montati">
+                    <span class="anello" aria-hidden="true">
+                        <svg viewBox="0 0 58 58" fill="none">
+                            <circle cx="29" cy="29" r="26" stroke="rgba(255,255,255,0.12)" stroke-width="3"/>
+                            <circle class="arco-dato" cx="29" cy="29" r="26" stroke="#6EC1E4" stroke-width="3" stroke-linecap="round"/>
+                        </svg>
+                        <span class="play">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="w-[18px] h-[18px]"><path d="M8 5.5 18.5 12 8 18.5z"/></svg>
+                        </span>
+                    </span>
+                    <span>
+                        <b class="cifra">+2000</b>
+                        <span class="didascalia">Video montati</span>
+                    </span>
                 </div>
 
                 <div class="reveal">
@@ -1113,7 +1618,8 @@
                         <a href="#candidati" class="btn-glow inline-flex items-center gap-2 px-8 py-4 rounded-full font-mono-me text-[11px] uppercase tracking-[0.16em] font-medium whitespace-nowrap">
                             Candidati
                         </a>
-                        <a href="#lavori" class="btn-arc inline-flex items-center gap-2 px-8 py-4 font-mono-me text-[11px] uppercase tracking-[0.16em] whitespace-nowrap">
+                        <!-- REVISIONE 2026-08 · 1.2 — stessa forma del primario, riempimento ghost -->
+                        <a href="#lavori" class="btn-ghost inline-flex items-center gap-2 px-8 py-4 rounded-full font-mono-me text-[11px] uppercase tracking-[0.16em] whitespace-nowrap">
                             Vedi i lavori
                         </a>
                     </div>
@@ -1134,19 +1640,20 @@
 
     <!-- ======================= NUMERI ======================= -->
     <!-- ⚠️ 2.000 e 45 vengono dai contatori del sito originale: confermare con Olga -->
-    <section class="border-y border-white/5">
-        <div class="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/5">
-            <div class="reveal py-10 text-center">
+    <!-- REVISIONE 2026-08 · 2 — le cifre nude diventano tre carte di vetro -->
+    <section class="stat-sezione">
+        <div class="container mx-auto px-6 stat-griglia">
+            <div class="reveal stat-carta">
                 <b class="block text-5xl md:text-6xl font-medium tracking-tight" style="text-shadow: 0 0 40px rgba(110,193,228,0.35)" data-conta="2000">2.000<span style="color: var(--accent)">+</span></b>
-                <span class="block mt-3 font-mono-me text-[10px] uppercase tracking-[0.2em] text-[#8B8D97]">Video montati</span>
+                <span class="stat-eti">Video montati</span>
             </div>
-            <div class="reveal py-10 text-center" style="transition-delay: 100ms;">
+            <div class="reveal stat-carta" style="transition-delay: 100ms;">
                 <b class="block text-5xl md:text-6xl font-medium tracking-tight" style="text-shadow: 0 0 40px rgba(110,193,228,0.35)" data-conta="6">6</b>
-                <span class="block mt-3 font-mono-me text-[10px] uppercase tracking-[0.2em] text-[#8B8D97]">Studi seguiti in Italia</span>
+                <span class="stat-eti">Studi seguiti in Italia</span>
             </div>
-            <div class="reveal py-10 text-center" style="transition-delay: 200ms;">
+            <div class="reveal stat-carta" style="transition-delay: 200ms;">
                 <b class="block text-5xl md:text-6xl font-medium tracking-tight" style="text-shadow: 0 0 40px rgba(110,193,228,0.35)" data-conta="3">3</b>
-                <span class="block mt-3 font-mono-me text-[10px] uppercase tracking-[0.2em] text-[#8B8D97]"><span class="sm:hidden">Controlli per video</span><span class="hidden sm:inline">Controlli di conformità per video</span></span>
+                <span class="stat-eti"><span class="sm:hidden">Controlli per video</span><span class="hidden sm:inline">Controlli di conformità per video</span></span>
             </div>
         </div>
     </section>
@@ -1244,6 +1751,45 @@
                     Così esce un video che fa numeri e non porta nessuno in studio. Oppure un video che porta guai.
                 </p>
             </div>
+
+            <!-- REVISIONE 2026-08 · 4 — stesso girato, due selezioni. Solo HTML/CSS. -->
+            <div class="reveal md:col-span-2 schema-taglio" style="transition-delay: 200ms;">
+                <div>
+                    <p class="schema-eti" style="color: #C08FA8">Montatore generico</p>
+                    <div class="schema-linea" aria-hidden="true">
+                        <span class="seg-prugna" style="height: 46%"></span>
+                        <span style="height: 22%"></span>
+                        <span class="seg-prugna" style="height: 72%"></span>
+                        <span style="height: 30%"></span>
+                        <span class="seg-prugna seg-rischio" style="height: 100%"></span>
+                        <span style="height: 26%"></span>
+                        <span class="seg-prugna" style="height: 58%"></span>
+                        <span style="height: 34%"></span>
+                    </div>
+                    <p class="schema-nota">taglia a tempo di musica → fa numeri, nessuna consulenza</p>
+                </div>
+
+                <div class="mt-8">
+                    <p class="schema-eti" style="color: var(--accent)">Selezione clinica</p>
+                    <div class="schema-linea" aria-hidden="true">
+                        <span style="height: 30%"></span>
+                        <span class="seg-blu" style="height: 64%"></span>
+                        <span style="height: 26%"></span>
+                        <span class="seg-blu" style="height: 88%"></span>
+                        <span class="seg-vuoto" style="height: 100%">✕</span>
+                        <span class="seg-blu" style="height: 54%"></span>
+                        <span style="height: 24%"></span>
+                        <span class="seg-blu" style="height: 76%"></span>
+                    </div>
+                    <p class="schema-nota">tiene ciò che il paziente teme → porta in consulenza</p>
+                </div>
+
+                <div class="schema-legenda">
+                    <span><i style="background: linear-gradient(180deg, rgba(110,193,228,.95), rgba(36,70,95,.9))"></i>risponde alla paura del paziente</span>
+                    <span><i style="background: linear-gradient(180deg, #8A5570, #5A3850)"></i>fa solo numeri</span>
+                    <span><i style="border: 1px dashed rgba(167,175,189,.55)"></i>✕ non pubblicabile: scartato</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1260,32 +1806,71 @@
                 </p>
             </div>
 
-            <ol>
-                <li class="reveal step-row grid md:grid-cols-[auto_minmax(0,22%)_minmax(0,1fr)_auto] md:items-baseline gap-6 md:gap-12 border-t border-white/10 py-10 md:py-12 px-2 -mx-2 rounded-xl group">
-                    <span class="step-n font-mono-me text-[11px] tracking-[0.2em] inline-block" style="color: var(--mute-2)">01</span>
-                    <h3 class="text-3xl md:text-4xl tracking-tight transition-colors duration-500 group-hover:text-[#6EC1E4]">Girato</h3>
-                    <p class="leading-relaxed" style="color: var(--text)">Ci mandi il materiale grezzo: sala, studio, follow-up, testa parlante. Anche dal telefono. Ti diciamo cosa serve e cosa no, prima che tu perda tempo a girarlo.</p>
-                    <span class="step-meta font-mono-me text-[10px] uppercase tracking-[0.18em] text-[#8B8D97] inline-block">Da te · 10 minuti</span>
-                </li>
-                <li class="reveal step-row grid md:grid-cols-[auto_minmax(0,22%)_minmax(0,1fr)_auto] md:items-baseline gap-6 md:gap-12 border-t border-white/10 py-10 md:py-12 px-2 -mx-2 rounded-xl group">
-                    <span class="step-n font-mono-me text-[11px] tracking-[0.2em] inline-block" style="color: var(--mute-2)">02</span>
-                    <h3 class="text-3xl md:text-4xl tracking-tight transition-colors duration-500 group-hover:text-[#6EC1E4]">Selezione clinica</h3>
-                    <p class="leading-relaxed" style="color: var(--text)">Guardiamo il girato sapendo cosa stiamo vedendo. Teniamo i passaggi che rispondono alla paura del paziente, scartiamo quelli che non si possono pubblicare.</p>
-                    <span class="step-meta font-mono-me text-[10px] uppercase tracking-[0.18em] text-[#8B8D97] inline-block">Da noi</span>
-                </li>
-                <li class="reveal step-row grid md:grid-cols-[auto_minmax(0,22%)_minmax(0,1fr)_auto] md:items-baseline gap-6 md:gap-12 border-t border-white/10 py-10 md:py-12 px-2 -mx-2 rounded-xl group">
-                    <span class="step-n font-mono-me text-[11px] tracking-[0.2em] inline-block" style="color: var(--mute-2)">03</span>
-                    <h3 class="text-3xl md:text-4xl tracking-tight transition-colors duration-500 group-hover:text-[#6EC1E4]">Montaggio</h3>
-                    <p class="leading-relaxed" style="color: var(--text)">Ritmo, sottotitoli, grafiche del tuo studio, anonimizzazione dei volti dove serve. Formato verticale per i social, orizzontale per sito e sala d'attesa.</p>
-                    <span class="step-meta font-mono-me text-[10px] uppercase tracking-[0.18em] text-[#8B8D97] inline-block">Da noi</span>
-                </li>
-                <li class="reveal grid md:grid-cols-[auto_minmax(0,22%)_minmax(0,1fr)_auto] md:items-baseline gap-6 md:gap-12 border-y border-white/10 py-10 md:py-12 group">
-                    <span class="step-n font-mono-me text-[11px] tracking-[0.2em] inline-block" style="color: var(--mute-2)">04</span>
-                    <h3 class="text-3xl md:text-4xl tracking-tight transition-colors duration-500 group-hover:text-[#6EC1E4]">Pubblicazione conforme</h3>
-                    <p class="leading-relaxed" style="color: var(--text)">Calendario, didascalie senza claim vietati, gestione dei commenti che chiedono consigli clinici. Tu approvi, noi pubblichiamo.</p>
-                    <span class="step-meta font-mono-me text-[10px] uppercase tracking-[0.18em] text-[#8B8D97] inline-block">Tu approvi</span>
-                </li>
-            </ol>
+            <!-- REVISIONE 2026-08 · 5.2 — elenco interattivo a sinistra, pannello del passo attivo a destra -->
+            <div class="metodo-griglia">
+                <div role="tablist" aria-label="I quattro passaggi del metodo" id="metodo-lista">
+                    <button type="button" role="tab" id="passo-tab-01" class="passo-btn" data-passo="01"
+                            aria-selected="true" aria-controls="metodo-pannello" tabindex="0">
+                        <span class="passo-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6"><path d="M2.5 8.5a2 2 0 0 1 2-2h2.2l1.3-2h6l1.3 2h2.2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.4"/></svg></span>
+                        <span>
+                            <span class="passo-testa">
+                                <span class="passo-n">01</span>
+                                <span class="passo-titolo">Girato</span>
+                                <span class="passo-meta">Da te · 10 min</span>
+                            </span>
+                            <span class="passo-corpo"><span><span class="passo-testo">Ci mandi il materiale grezzo: sala, studio, follow-up, testa parlante. Anche dal telefono. Ti diciamo cosa serve e cosa no, prima che tu perda tempo a girarlo.</span></span></span>
+                        </span>
+                    </button>
+                    <button type="button" role="tab" id="passo-tab-02" class="passo-btn" data-passo="02"
+                            aria-selected="false" aria-controls="metodo-pannello" tabindex="-1">
+                        <span class="passo-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+                        <span>
+                            <span class="passo-testa">
+                                <span class="passo-n">02</span>
+                                <span class="passo-titolo">Selezione clinica</span>
+                                <span class="passo-meta">Da noi</span>
+                            </span>
+                            <span class="passo-corpo"><span><span class="passo-testo">Guardiamo il girato sapendo cosa stiamo vedendo. Teniamo i passaggi che rispondono alla paura del paziente, scartiamo quelli che non si possono pubblicare.</span></span></span>
+                        </span>
+                    </button>
+                    <button type="button" role="tab" id="passo-tab-03" class="passo-btn" data-passo="03"
+                            aria-selected="false" aria-controls="metodo-pannello" tabindex="-1">
+                        <span class="passo-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6"><circle cx="6" cy="6" r="2.6"/><circle cx="6" cy="18" r="2.6"/><path d="M20 4 8.6 15.4M14.6 14.6 20 20M8.6 8.6 12 12"/></svg></span>
+                        <span>
+                            <span class="passo-testa">
+                                <span class="passo-n">03</span>
+                                <span class="passo-titolo">Montaggio</span>
+                                <span class="passo-meta">Da noi</span>
+                            </span>
+                            <span class="passo-corpo"><span><span class="passo-testo">Ritmo, sottotitoli, grafiche del tuo studio, anonimizzazione dei volti dove serve. Formato verticale per i social, orizzontale per sito e sala d’attesa.</span></span></span>
+                        </span>
+                    </button>
+                    <button type="button" role="tab" id="passo-tab-04" class="passo-btn" data-passo="04"
+                            aria-selected="false" aria-controls="metodo-pannello" tabindex="-1">
+                        <span class="passo-chip" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6"><path d="M20 12.5c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20 4 17.5 4 12.5V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.3-2.7a1.1 1.1 0 0 1 1.4 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></span>
+                        <span>
+                            <span class="passo-testa">
+                                <span class="passo-n">04</span>
+                                <span class="passo-titolo">Pubblicazione conforme</span>
+                                <span class="passo-meta">Tu approvi</span>
+                            </span>
+                            <span class="passo-corpo"><span><span class="passo-testo">Calendario, didascalie senza claim vietati, gestione dei commenti che chiedono consigli clinici. Tu approvi, noi pubblichiamo.</span></span></span>
+                        </span>
+                    </button>
+                </div>
+
+                <div class="metodo-pannello" id="metodo-pannello" role="tabpanel" aria-labelledby="passo-tab-01">
+                    <span class="metodo-fantasma" data-pannello="numero" aria-hidden="true">01</span>
+                    <div class="metodo-sfera orb" data-pannello="icona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-6 h-6"><path d="M2.5 8.5a2 2 0 0 1 2-2h2.2l1.3-2h6l1.3 2h2.2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.4"/></svg></div>
+                    <p class="metodo-nome" data-pannello="nome">Girato</p>
+                    <div class="metodo-punti" data-pannello="punti" aria-hidden="true">
+                        <i class="attivo" aria-hidden="true"></i>
+                        <i class="" aria-hidden="true"></i>
+                        <i class="" aria-hidden="true"></i>
+                        <i class="" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1427,32 +2012,36 @@
                 </p>
             </div>
 
+            <!-- REVISIONE 2026-08 · 6 — carta ridotta all'essenziale, il testo pieno sta nel popup -->
             <div class="stagger grid md:grid-cols-3 gap-6">
-                <article class="lucida rounded-3xl p-8 md:p-10 border border-white/10 flex flex-col justify-between gap-8" style="background: var(--card)">
+                <article class="lucida rounded-3xl p-8 md:p-10 border border-white/10 flex flex-col justify-between gap-6" style="background: var(--card);">
                     <div>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-8 h-8 mb-6" style="color: var(--accent)"><path d="M12 3v18M7 21h10M3.5 9.5 7 4l3.5 5.5M13.5 9.5 17 4l3.5 5.5"/><path d="M3.5 9.5a3.5 3.5 0 0 0 7 0M13.5 9.5a3.5 3.5 0 0 0 7 0"/></svg>
                         <h3 class="text-2xl tracking-tight mb-4">Pubblicità sanitaria</h3>
-                        <p class="leading-relaxed" style="color: var(--text)">L'informazione sanitaria deve essere trasparente e veritiera, mai promozionale o suggestiva. La legge di riferimento è la L. 175/1992, integrata dall'art. 1 comma 525 della L. 145/2018.</p>
+                        <p class="conf-riga">Informazione trasparente e veritiera, mai promozionale o suggestiva.</p>
                     </div>
                     <p class="font-mono-me text-[10px] uppercase tracking-[0.14em] leading-relaxed" style="color: var(--accent)">L. 175/1992 · L. 145/2018 art. 1 c. 525</p>
+                    <button type="button" class="btn-dettagli" data-apri="pop-pub" aria-haspopup="dialog">Leggi i dettagli ↗</button>
                 </article>
 
-                <article class="lucida rounded-3xl p-8 md:p-10 border border-white/10 flex flex-col justify-between gap-8" style="background: var(--card); transition-delay: 120ms;">
+                <article class="lucida rounded-3xl p-8 md:p-10 border border-white/10 flex flex-col justify-between gap-6" style="background: var(--card); transition-delay: 120ms;">
                     <div>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-8 h-8 mb-6" style="color: var(--accent)"><path d="M5 3v5a4 4 0 0 0 8 0V3"/><path d="M5 3H3.5M13 3h1.5"/><path d="M9 12v3a5 5 0 0 0 10 0v-1"/><circle cx="19" cy="12" r="2.2"/></svg>
                         <h3 class="text-2xl tracking-tight mb-4">Deontologia medica</h3>
-                        <p class="leading-relaxed" style="color: var(--text)">Il Codice FNOMCeO regola informazione e pubblicità del medico agli artt. 55-57: contenuti veritieri, niente comparazioni con i colleghi, niente promesse di risultato.</p>
+                        <p class="conf-riga">Niente promesse di risultato, niente comparazioni con i colleghi.</p>
                     </div>
                     <p class="font-mono-me text-[10px] uppercase tracking-[0.14em] leading-relaxed" style="color: var(--accent)">FNOMCeO artt. 55-57</p>
+                    <button type="button" class="btn-dettagli" data-apri="pop-deo" aria-haspopup="dialog">Leggi i dettagli ↗</button>
                 </article>
 
-                <article class="lucida rounded-3xl p-8 md:p-10 border border-white/10 flex flex-col justify-between gap-8" style="background: var(--card); transition-delay: 240ms;">
+                <article class="lucida rounded-3xl p-8 md:p-10 border border-white/10 flex flex-col justify-between gap-6" style="background: var(--card); transition-delay: 240ms;">
                     <div>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-8 h-8 mb-6" style="color: var(--accent)"><path d="M20 12.5c0 5-3.5 7.5-7.7 9a1 1 0 0 1-.6 0C7.5 20 4 17.5 4 12.5V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.3-2.7a1.1 1.1 0 0 1 1.4 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
                         <h3 class="text-2xl tracking-tight mb-4">Immagini dei pazienti</h3>
-                        <p class="leading-relaxed" style="color: var(--text)">Volti, corpi e prima/dopo sono dati particolari: servono consenso scritto, separato da quello alle cure, revocabile in ogni momento. In sala serve anche l'autorizzazione della direzione sanitaria.</p>
+                        <p class="conf-riga">Consenso scritto, separato dalle cure e revocabile in ogni momento.</p>
                     </div>
                     <p class="font-mono-me text-[10px] uppercase tracking-[0.14em] leading-relaxed" style="color: var(--accent)">GDPR art. 9 · consenso scritto</p>
+                    <button type="button" class="btn-dettagli" data-apri="pop-img" aria-haspopup="dialog">Leggi i dettagli ↗</button>
                 </article>
             </div>
 
@@ -1469,24 +2058,24 @@
             <p class="reveal font-mono-me text-[11px] uppercase tracking-[0.18em] mb-6" style="color: var(--accent)">Selezione</p>
             <h2 class="reveal mb-20">Con chi lavoriamo</h2>
 
-            <div class="grid md:grid-cols-2 gap-16">
-                <div class="reveal">
-                    <p class="font-mono-me text-[11px] uppercase tracking-[0.18em] mb-8" style="color: var(--accent)">Sì, se</p>
+            <!-- REVISIONE 2026-08 · 7 — due liste sciolte diventano due carte compatte -->
+            <div class="sel-griglia grid md:grid-cols-2 gap-6">
+                <div class="reveal sel-carta sel-si">
+                    <p class="sel-pillola">Sì, se</p>
                     <ul>
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Chirurghi plastici e medici estetici con studio avviato</li>
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Chi crede nel valore di una comunicazione trasparente</li>
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Chi partecipa alla creazione dei contenuti e ci mette la faccia</li>
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Chi vuole costruire un’identità digitale coerente e professionale</li>
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Chi vede il paziente come persona, non solo come “cliente”</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Studio avviato di chirurgia plastica o medicina estetica</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Comunicazione trasparente, ci metti la faccia</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Identità digitale coerente e professionale</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: var(--accent)"><path d="M20 6 9 17l-5-5"/></svg>Il paziente prima del “cliente”</li>
                     </ul>
                 </div>
-                <div class="reveal" style="transition-delay: 120ms;">
-                    <p class="font-mono-me text-[11px] uppercase tracking-[0.18em] mb-8 text-[#8B8D97]">No, se</p>
+                <div class="reveal sel-carta sel-no" style="transition-delay: 120ms;">
+                    <p class="sel-pillola">No, se</p>
                     <ul style="color: var(--text)">
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1 text-[#8B8D97]"><path d="M18 6 6 18M6 6l12 12"/></svg>Chi cerca visualizzazioni garantite</li>
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1 text-[#8B8D97]"><path d="M18 6 6 18M6 6l12 12"/></svg>Chi vuole pubblicare prima/dopo senza consensi firmati</li>
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1 text-[#8B8D97]"><path d="M18 6 6 18M6 6l12 12"/></svg>Chi delega tutto e non vuole essere ripreso</li>
-                        <li class="fit-row flex gap-5 border-t border-white/10 py-5 leading-relaxed"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5 shrink-0 mt-1 text-[#8B8D97]"><path d="M18 6 6 18M6 6l12 12"/></svg>Chi ha già un collega nostro cliente nella stessa città</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: #8B8D97"><path d="M18 6 6 18M6 6l12 12"/></svg>Cerchi visualizzazioni garantite</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: #8B8D97"><path d="M18 6 6 18M6 6l12 12"/></svg>Prima/dopo senza consensi firmati</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: #8B8D97"><path d="M18 6 6 18M6 6l12 12"/></svg>Deleghi tutto e non vuoi essere ripreso</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color: #8B8D97"><path d="M18 6 6 18M6 6l12 12"/></svg>Un tuo collega in città è già nostro cliente</li>
                     </ul>
                 </div>
             </div>
@@ -1503,7 +2092,10 @@
             </div>
 
             <div class="reveal">
-                <details name="faq" class="border-b border-white/10 py-6 first:border-t">
+                <!-- REVISIONE 2026-08 · 8 — 13 domande in tre gruppi, numeri 01-13 rifatti -->
+                <p class="faq-gruppo" style="margin-bottom: 18px;">Il servizio</p>
+
+                <details name="faq" class="border-b border-white/10 py-6">
                     <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
                         <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">01</span><span>Che cos'è Medical Editing?</span></span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
@@ -1521,7 +2113,25 @@
 
                 <details name="faq" class="border-b border-white/10 py-6">
                     <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">03</span><span>Posso pubblicare foto e video prima/dopo dei miei pazienti?</span></span>
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">03</span><span>Si può lavorare senza il medico?</span></span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
+                    </summary>
+                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">No. Senza il tuo coinvolgimento la comunicazione perde autenticità e credibilità: sei tu la persona che il paziente vuole vedere e ascoltare prima di prenotare. Possiamo alleggerire il tuo impegno fino a dieci minuti a settimana, ma non azzerarlo.</p></div></div>
+                </details>
+
+                <details name="faq" class="border-b border-white/10 py-6">
+                    <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">04</span><span>Come si comincia?</span></span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
+                    </summary>
+                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Compili il modulo di candidatura: tre minuti, servono a capire se possiamo esserti utili. Guardiamo il materiale che hai già e ti diciamo, senza impegno, se secondo noi c'è un lavoro sensato da fare. Se non c'è, te lo diciamo.</p></div></div>
+                </details>
+
+                <p class="faq-gruppo" style="margin-top: 56px; margin-bottom: 18px;">Legge e consensi</p>
+
+                <details name="faq" class="border-b border-white/10 py-6">
+                    <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">05</span><span>Posso pubblicare foto e video prima/dopo dei miei pazienti?</span></span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
                     </summary>
                     <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Solo con consenso scritto specifico per l'uso delle immagini, separato dal consenso alle cure e revocabile in qualsiasi momento: volto e corpo sono dati particolari ai sensi dell'art. 9 GDPR. Il contenuto deve restare informativo e mai promozionale, come previsto dalla L. 175/1992 e dall'art. 1 comma 525 della L. 145/2018. Prepariamo noi i moduli; senza consenso, quel materiale non esce.</p></div></div>
@@ -1529,7 +2139,7 @@
 
                 <details name="faq" class="border-b border-white/10 py-6">
                     <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">04</span><span>Si può riprendere dentro la sala operatoria?</span></span>
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">06</span><span>Si può riprendere dentro la sala operatoria?</span></span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
                     </summary>
                     <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Sì, con il consenso informato del paziente anche per le riprese e con l'autorizzazione della direzione sanitaria della struttura. Chi riprende deve rispettare le regole del campo sterile e sapere dove stare: è la ragione per cui questo studio è nato in sala e non in un'agenzia.</p></div></div>
@@ -1537,26 +2147,10 @@
 
                 <details name="faq" class="border-b border-white/10 py-6">
                     <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">05</span><span>Posso promettere un risultato nei video?</span></span>
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">07</span><span>Posso promettere un risultato nei video?</span></span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
                     </summary>
                     <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">No. Il Codice di deontologia medica FNOMCeO (artt. 55-57) e la normativa sulla pubblicità sanitaria vietano promesse di risultato, claim suggestivi e comparazioni con altri professionisti. Si può spiegare la tecnica, mostrare un decorso reale e dichiarare i limiti: è anche ciò che il paziente trova più credibile.</p></div></div>
-                </details>
-
-                <details name="faq" class="border-b border-white/10 py-6">
-                    <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">06</span><span>Quanti video servono al mese?</span></span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
-                    </summary>
-                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Una pubblicazione costante conta più della quantità. Il ritmo che regge nel tempo per uno studio singolo è di due contenuti a settimana, alternando video educativi, decorsi post-operatori e risposte alle domande che ricevi in consulenza.</p></div></div>
-                </details>
-
-                <details name="faq" class="border-b border-white/10 py-6">
-                    <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">07</span><span>Gestite anche la pubblicazione?</span></span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
-                    </summary>
-                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Sì: calendario, didascalie conformi, primi commenti. Sui commenti che chiedono un parere clinico rispondiamo invitando in consulenza, mai con un consiglio medico individuale in pubblico.</p></div></div>
                 </details>
 
                 <details name="faq" class="border-b border-white/10 py-6">
@@ -1567,17 +2161,27 @@
                     <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Dipende dalla piattaforma e dalla procedura. Le procedure invasive (filler, tossina botulinica, chirurgia) sono soggette a forti restrizioni sugli annunci a pagamento, in particolare su TikTok. Sul contenuto organico lo spazio è molto più ampio, ed è lì che lavoriamo.</p></div></div>
                 </details>
 
+                <p class="faq-gruppo" style="margin-top: 56px; margin-bottom: 18px;">Operatività</p>
+
                 <details name="faq" class="border-b border-white/10 py-6">
                     <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">09</span><span>Lavorate con più medici nella stessa città?</span></span>
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">09</span><span>Quanti video servono al mese?</span></span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
                     </summary>
-                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">No. Prendiamo pochi studi alla volta e non seguiamo due colleghi concorrenti nella stessa area: il posizionamento di uno lavorerebbe contro l'altro.</p></div></div>
+                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Una pubblicazione costante conta più della quantità. Il ritmo che regge nel tempo per uno studio singolo è di due contenuti a settimana, alternando video educativi, decorsi post-operatori e risposte alle domande che ricevi in consulenza.</p></div></div>
                 </details>
 
                 <details name="faq" class="border-b border-white/10 py-6">
                     <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">10</span><span>Quali materiali servono per iniziare?</span></span>
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">10</span><span>Gestite anche la pubblicazione?</span></span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
+                    </summary>
+                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Sì: calendario, didascalie conformi, primi commenti. Sui commenti che chiedono un parere clinico rispondiamo invitando in consulenza, mai con un consiglio medico individuale in pubblico.</p></div></div>
+                </details>
+
+                <details name="faq" class="border-b border-white/10 py-6">
+                    <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">11</span><span>Quali materiali servono per iniziare?</span></span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
                     </summary>
                     <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Video clinici, immagini prima e dopo con i consensi firmati, eventuali testimonianze o interviste. Va bene anche materiale girato col telefono: la prima cosa che guardiamo è cosa hai già in archivio, non la qualità della telecamera. Se non hai nulla, si parte da una giornata di riprese in studio.</p></div></div>
@@ -1585,7 +2189,7 @@
 
                 <details name="faq" class="border-b border-white/10 py-6">
                     <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">11</span><span>Chi pubblica le storie e i post?</span></span>
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">12</span><span>Chi pubblica le storie e i post?</span></span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
                     </summary>
                     <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Di solito il medico o la sua segreteria: noi consegniamo il contenuto pronto, con didascalia e orario suggerito. Se preferisci, gestiamo noi la pubblicazione con un calendario che approvi in anticipo.</p></div></div>
@@ -1593,18 +2197,10 @@
 
                 <details name="faq" class="border-b border-white/10 py-6">
                     <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">12</span><span>Si può lavorare senza il medico?</span></span>
+                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">13</span><span>Lavorate con più medici nella stessa città?</span></span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
                     </summary>
-                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">No. Senza il tuo coinvolgimento la comunicazione perde autenticità e credibilità: sei tu la persona che il paziente vuole vedere e ascoltare prima di prenotare. Possiamo alleggerire il tuo impegno fino a dieci minuti a settimana, ma non azzerarlo.</p></div></div>
-                </details>
-
-                <details name="faq" class="border-b border-white/10 py-6">
-                    <summary class="flex items-start justify-between gap-8 cursor-pointer text-lg md:text-xl tracking-tight hover:text-[#6EC1E4] transition-colors">
-                        <span class="faq-q flex gap-5"><span class="font-mono-me text-[10px] tracking-[0.2em] text-[#8B8D97] mt-2">13</span><span>Come si comincia?</span></span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="faq-plus w-4 h-4 shrink-0 mt-2 transition-transform duration-300"><path d="M5 12h14M12 5v14"/></svg>
-                    </summary>
-                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">Compili il modulo di candidatura: tre minuti, servono a capire se possiamo esserti utili. Guardiamo il materiale che hai già e ti diciamo, senza impegno, se secondo noi c'è un lavoro sensato da fare. Se non c'è, te lo diciamo.</p></div></div>
+                    <div class="faq-body"><div><p class="mt-5 md:ml-[3.1rem] max-w-3xl leading-[1.75]" style="color: var(--text)">No. Prendiamo pochi studi alla volta e non seguiamo due colleghi concorrenti nella stessa area: il posizionamento di uno lavorerebbe contro l'altro.</p></div></div>
                 </details>
             </div>
         </div>
@@ -1625,7 +2221,7 @@
 
                 <div class="apply__links reveal mt-12 pt-8 border-t border-white/10 flex flex-col gap-2">
                     <a href="mailto:xxx.olga@icloud.com" class="text-lg tracking-tight hover:text-[#6EC1E4] transition-colors">xxx.olga@icloud.com</a>
-                    <a href="https://www.instagram.com/medicalediting/" target="_blank" rel="noreferrer noopener" class="text-[15px] transition-colors hover:text-[#6EC1E4]" style="color: var(--text)">Instagram · @medicalediting</a>
+                    <a href="https://www.instagram.com/medicaledit_/" target="_blank" rel="noreferrer noopener" class="text-[15px] transition-colors hover:text-[#6EC1E4]" style="color: var(--text)">Instagram · @medicalediting</a>
                 </div>
             </div>
 
@@ -1677,7 +2273,7 @@
                     </div>
 
                     <div class="mt-8 flex items-center gap-3">
-                        <a href="https://www.instagram.com/medicalediting/" target="_blank" rel="noreferrer noopener"
+                        <a href="https://www.instagram.com/medicaledit_/" target="_blank" rel="noreferrer noopener"
                            aria-label="Instagram di Medical Editing"
                            class="social grid h-11 w-11 place-items-center rounded-full border border-white/12">
                             <svg viewBox="0 0 24 24" class="w-[18px] h-[18px]" fill="currentColor" aria-hidden="true">
@@ -1732,6 +2328,35 @@
 </div>
 
 <!-- ======================= COOKIE ======================= -->
+<!-- REVISIONE 2026-08 · 6 — finestre di dettaglio della Conformità (dialog nativo) -->
+<dialog class="conf-pop" id="pop-pub" aria-labelledby="pop-pub-tit">
+    <button type="button" class="conf-pop-chiudi" data-chiudi aria-label="Chiudi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 id="pop-pub-tit">Pubblicità sanitaria</h3>
+    <p>L'informazione sanitaria deve essere trasparente e veritiera, mai promozionale o suggestiva. La legge di riferimento è la L. 175/1992, integrata dall'art. 1 comma 525 della L. 145/2018.</p>
+    <p class="conf-pop-norma">L. 175/1992 · L. 145/2018 art. 1 c. 525</p>
+    <ul class="conf-pop-fonti"><li><a href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1992-02-05;175" target="_blank" rel="noopener noreferrer">L. 175/1992 su Normattiva <span aria-hidden="true">↗</span><span class="solo-lettori"> (si apre in una nuova scheda)</span></a></li><li><a href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:2018-12-30;145" target="_blank" rel="noopener noreferrer">L. 145/2018 su Normattiva <span aria-hidden="true">↗</span><span class="solo-lettori"> (si apre in una nuova scheda)</span></a></li></ul>
+</dialog>
+<dialog class="conf-pop" id="pop-deo" aria-labelledby="pop-deo-tit">
+    <button type="button" class="conf-pop-chiudi" data-chiudi aria-label="Chiudi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 id="pop-deo-tit">Deontologia medica</h3>
+    <p>Il Codice FNOMCeO regola informazione e pubblicità del medico agli artt. 55-57: contenuti veritieri, niente comparazioni con i colleghi, niente promesse di risultato.</p>
+    <p class="conf-pop-norma">FNOMCeO artt. 55-57</p>
+    <ul class="conf-pop-fonti"><li><a href="https://portale.fnomceo.it/codice-deontologico/" target="_blank" rel="noopener noreferrer">Codice di deontologia medica FNOMCeO <span aria-hidden="true">↗</span><span class="solo-lettori"> (si apre in una nuova scheda)</span></a></li></ul>
+</dialog>
+<dialog class="conf-pop" id="pop-img" aria-labelledby="pop-img-tit">
+    <button type="button" class="conf-pop-chiudi" data-chiudi aria-label="Chiudi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="w-5 h-5"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <h3 id="pop-img-tit">Immagini dei pazienti</h3>
+    <p>Volti, corpi e prima/dopo sono dati particolari: servono consenso scritto, separato da quello alle cure, revocabile in ogni momento. In sala serve anche l'autorizzazione della direzione sanitaria della struttura.</p>
+    <p class="conf-pop-norma">GDPR art. 9 · consenso scritto</p>
+    <ul class="conf-pop-fonti"><li><a href="https://www.garanteprivacy.it/il-testo-del-regolamento" target="_blank" rel="noopener noreferrer">Testo del Regolamento UE 2016/679 · Garante Privacy <span aria-hidden="true">↗</span><span class="solo-lettori"> (si apre in una nuova scheda)</span></a></li></ul>
+</dialog>
+
 <div id="cookiebar" role="dialog" aria-live="polite" aria-label="Informativa sui cookie"
      class="fixed z-[120] left-3 right-3 bottom-3 md:left-10 md:bottom-10 md:right-auto md:max-w-xl hidden flex-col gap-4 p-5 md:p-6 rounded-2xl border border-white/10 shadow-2xl"
      style="background: rgba(17,18,21,0.97); backdrop-filter: blur(18px)">
@@ -1860,7 +2485,7 @@
     (function () {
         const tinte = {
             azzurro: { a: 'rgba(110,193,228,0.16)', b: 'rgba(36,70,95,0.20)',  x: '78%', x2: '12%' },
-            teal:    { a: 'rgba(54,102,105,0.30)',  b: 'rgba(44,75,79,0.22)',  x: '22%', x2: '82%' },
+            teal:    { a: 'rgba(45,95,130,0.26)',   b: 'rgba(36,70,95,0.22)',  x: '22%', x2: '82%' }, /* REVISIONE 2026-08 · 3 — era verde */
             notte:   { a: 'rgba(70,42,61,0.16)',    b: 'rgba(31,60,87,0.22)',  x: '65%', x2: '25%' },
             profondo:{ a: 'rgba(36,70,95,0.10)',    b: 'rgba(12,10,20,0.00)',  x: '50%', x2: '50%' },
         };
@@ -2113,6 +2738,214 @@
         bar.classList.add('hidden');
         bar.classList.remove('flex');
     });
+</script>
+
+
+<!-- ============================================================
+     REVISIONE 2026-08 — comportamenti nuovi: i quattro passaggi del
+     Metodo e le finestre di dettaglio della Conformità.
+     Per annullare la revisione basta togliere questo blocco.
+     ============================================================ -->
+<script id="js-revisione-2026-08">
+(function () {
+    var fermo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---- 5.2 · i quattro passaggi ---- */
+    var lista = document.getElementById('metodo-lista');
+    var pannello = document.getElementById('metodo-pannello');
+    if (lista && pannello) {
+        var tab = Array.prototype.slice.call(lista.querySelectorAll('[role="tab"]'));
+        var slotN = pannello.querySelector('[data-pannello="numero"]');
+        var slotI = pannello.querySelector('[data-pannello="icona"]');
+        var slotT = pannello.querySelector('[data-pannello="nome"]');
+        var punti = pannello.querySelectorAll('[data-pannello="punti"] i');
+        var auto = null, cliccato = false, indice = 0;
+
+        function mostra(i) {
+            indice = i;
+            tab.forEach(function (b, k) {
+                var att = k === i;
+                b.setAttribute('aria-selected', att ? 'true' : 'false');
+                b.setAttribute('tabindex', att ? '0' : '-1');
+            });
+            var b = tab[i];
+            slotN.textContent = b.getAttribute('data-passo');
+            slotI.innerHTML = b.querySelector('.passo-chip').innerHTML;
+            slotT.textContent = b.querySelector('.passo-titolo').textContent;
+            pannello.setAttribute('aria-labelledby', b.id);
+            for (var k = 0; k < punti.length; k++) punti[k].classList.toggle('attivo', k === i);
+            if (!fermo) {
+                pannello.classList.remove('metodo-cambio');
+                void pannello.offsetWidth;
+                pannello.classList.add('metodo-cambio');
+            }
+        }
+
+        function stopAuto() {
+            cliccato = true;
+            if (auto) { clearInterval(auto); auto = null; }
+        }
+
+        tab.forEach(function (b, i) {
+            b.addEventListener('click', function () { stopAuto(); mostra(i); });
+            b.addEventListener('keydown', function (e) {
+                var d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1
+                      : e.key === 'ArrowUp'   || e.key === 'ArrowLeft'  ? -1 : 0;
+                if (!d) return;
+                e.preventDefault();
+                stopAuto();
+                var n = (i + d + tab.length) % tab.length;
+                mostra(n);
+                tab[n].focus();
+            });
+        });
+
+        mostra(0);
+        if (!fermo) {
+            auto = setInterval(function () {
+                if (cliccato) return;
+                mostra((indice + 1) % tab.length);
+            }, 4200);
+        }
+    }
+
+    /* ---- Lavori · nastro che scorre piano, in ciclo, con le frecce ---- */
+    (function () {
+        var vista = document.querySelector('.reels-vista');
+        if (!vista) return;
+        var nastro = vista.querySelector('.reels-nastro');
+        if (!nastro) return;
+
+        /* via le copie del vecchio giro infinito: raddoppiavano i video da
+           caricare e il browser ne annullava una parte, per questo alcune card
+           non si accendevano al passaggio del mouse. Il ciclo ora lo fa il JS. */
+        nastro.querySelectorAll('.reel[aria-hidden="true"]').forEach(function (c) { c.remove(); });
+        vista.classList.add('con-frecce');
+
+        var guscio = document.createElement('div');
+        guscio.className = 'reels-guscio';
+        vista.parentNode.insertBefore(guscio, vista);
+        guscio.appendChild(vista);
+
+        function creaFreccia(verso, etichetta, traccia) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'reels-freccia reels-freccia--' + verso;
+            b.setAttribute('aria-label', etichetta);
+            b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" ' +
+                          'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + traccia + '"/></svg>';
+            return b;
+        }
+        var prec = creaFreccia('prec', 'Lavoro precedente', 'M15 5 8 12l7 7');
+        var succ = creaFreccia('succ', 'Lavoro successivo', 'M9 5l7 7-7 7');
+        guscio.appendChild(prec);
+        guscio.appendChild(succ);
+
+        var VELOCITA = 26;      /* px al secondo: la deriva lenta di prima */
+        var DURATA   = 460;     /* quanto ci mette una freccia a portare la clip successiva */
+
+        var off = 0;            /* di quanto e' spostato il nastro, in px */
+        var inMano = false;
+        var anim = null;        /* { da, a, t0 } quando sta rispondendo a una freccia */
+        var ultimo = 0;
+
+        function larghezzaPrima() {
+            var c = nastro.firstElementChild;
+            if (!c) return 300;
+            var gap = parseFloat(getComputedStyle(nastro).columnGap) || 20;
+            return c.getBoundingClientRect().width + gap;
+        }
+        function normalizza() {
+            var giri = 0;
+            var w = larghezzaPrima();
+            while (off >= w && giri < 20) {
+                off -= w; if (anim) { anim.da -= w; anim.a -= w; }
+                nastro.appendChild(nastro.firstElementChild);
+                w = larghezzaPrima(); giri++;
+            }
+            while (off < 0 && giri < 20) {
+                nastro.insertBefore(nastro.lastElementChild, nastro.firstElementChild);
+                w = larghezzaPrima();
+                off += w; if (anim) { anim.da += w; anim.a += w; }
+                giri++;
+            }
+        }
+        function morbida(p) { return 1 - Math.pow(1 - p, 3); }
+
+        function battito(ora) {
+            var dt = ultimo ? Math.min(60, ora - ultimo) : 0;
+            ultimo = ora;
+            if (anim) {
+                var p = Math.min(1, (ora - anim.t0) / DURATA);
+                off = anim.da + (anim.a - anim.da) * morbida(p);
+                if (p >= 1) anim = null;
+            } else if (!fermo && !guscio.matches(':hover') && !inMano) {
+                off += VELOCITA * dt / 1000;
+            }
+            normalizza();
+            nastro.style.transform = 'translate3d(' + (-off) + 'px,0,0)';
+            requestAnimationFrame(battito);
+        }
+        requestAnimationFrame(battito);
+
+        function vai(verso) {
+            var w = larghezzaPrima();
+            var partenza = anim ? off : off;
+            anim = { da: partenza, a: partenza + verso * w, t0: performance.now() };
+        }
+        succ.addEventListener('click', function () { vai(1); });
+        prec.addEventListener('click', function () { vai(-1); });
+
+        /* trascinamento col dito o col mouse */
+        var giu = null, spostato = 0;
+        nastro.addEventListener('pointerdown', function (e) {
+            if (e.pointerType === 'mouse' && e.button !== 0) return;
+            giu = e.clientX; spostato = 0; inMano = true; anim = null;
+            nastro.classList.add('in-mano');
+        });
+        nastro.addEventListener('pointermove', function (e) {
+            if (giu === null) return;
+            var d = e.clientX - giu;
+            off -= (d - spostato);
+            spostato = d;
+        });
+        function rilascia() {
+            if (giu === null) return;
+            nastro.classList.remove('in-mano');
+            giu = null; inMano = false;
+            setTimeout(function () { spostato = 0; }, 60);
+        }
+        nastro.addEventListener('pointerup', rilascia);
+        nastro.addEventListener('pointercancel', rilascia);
+        window.addEventListener('pointerup', rilascia);
+        /* un trascinamento non deve aprire il video */
+        nastro.addEventListener('click', function (e) {
+            if (Math.abs(spostato) > 8) { e.stopPropagation(); e.preventDefault(); }
+        }, true);
+    })();
+
+    /* ---- 6 · finestre di dettaglio della Conformità ---- */
+    document.querySelectorAll('[data-apri]').forEach(function (b) {
+        var pop = document.getElementById(b.getAttribute('data-apri'));
+        if (!pop || typeof pop.showModal !== 'function') return;
+        b.addEventListener('click', function () {
+            pop.showModal();
+            var x = pop.querySelector('[data-chiudi]');
+            if (x) x.focus();
+        });
+        pop.addEventListener('close', function () { b.focus(); });
+        var x = pop.querySelector('[data-chiudi]');
+        if (x) x.addEventListener('click', function () { pop.close(); });
+        /* clic sulla velina, non sul contenuto */
+        pop.addEventListener('click', function (e) {
+            if (e.target !== pop) return;
+            var r = pop.getBoundingClientRect();
+            var dentro = e.clientX >= r.left && e.clientX <= r.right &&
+                         e.clientY >= r.top  && e.clientY <= r.bottom;
+            if (!dentro) pop.close();
+        });
+    });
+})();
 </script>
 
 </body>
